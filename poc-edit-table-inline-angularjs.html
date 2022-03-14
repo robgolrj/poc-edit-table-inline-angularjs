@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+    </style>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/underscore@1.13.2/underscore-umd-min.js"></script>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+
+  <button ng-click="adicionar()" >adicionar mais linhas</button>
+  
+ <table>
+    <tr>
+      <th>Campo 1</th>
+      <th>Campo 2</th>
+      <th>Campo 3</th>
+      <th>Botões</th>
+    </tr>  
+    <tr  ng-repeat="x in records track by $index">    
+    
+        <form  name="myForm{{ $index }}">                    
+        	
+            <td ng-click="x.editMode = true">
+            	<input name="campo1" ng-model= "x.campo1" required ng-show="x.editMode"></input>
+                <span name="campo1" required ng-show="!x.editMode">{{x.campo1}}</span>
+            </td>
+            <td ng-click="x.editMode = true">
+            	<input name="campo2" ng-model= "x.campo2" required ng-show="x.editMode"></input>
+                <span name="campo1" required ng-show="!x.editMode">{{x.campo1}}</span>
+            </td>
+            <td ng-click="x.editMode = true">
+            	<input name="campo3" ng-model= "x.campo3" required ng-show="x.editMode"></input>
+                <span name="campo1" required ng-show="!x.editMode">{{x.campo1}}</span>
+            </td>            
+            <td>
+                <button 
+                ng-click="removerNobanco(x)">remover</button>                
+                <button ng-show="x.editMode" ng-click="x.editMode = false">salvar</button>   
+                <button ng-click="x.editMode = false" ng-show="x.editMode">cancel</button>
+            </td>   
+            
+        </form>     
+      
+    </tr>
+ </table>
+ {{records}}
+</body>
+<script>
+
+var app = angular.module("myApp", []);
+app.controller("myCtrl", function($scope) {
+
+    let dadosDoBanco = [
+    			{campo1: 'linha 1 coluna 1',campo2: 'linha 1 coluna 2',campo3: 'linha 1 coluna 3'},
+                {campo1: 'linha 2 coluna 1',campo2: 'linha 2 coluna 2',campo3: 'linha 2 coluna 3'},
+                {campo1: 'linha 3 coluna 1',campo2: 'linha 3 coluna 2',campo3: 'linha 3 coluna 3'}
+                ]	
+  $scope.records = dadosDoBanco;
+  
+  
+  
+  $scope.adicionar = () => $scope.records.push({editMode:true});
+  $scope.removerNobanco = (x) => $scope.records = _.without($scope.records, x);
+});
+</script>
+
+</body>
+</html>
